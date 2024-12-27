@@ -174,9 +174,9 @@ class WiktionaryParser(object):
         definition_tag = None
         for def_index, def_id, def_type in definition_id_list:
             definition_text = []
-            span_tag = self.soup.find_all('span', {'id': def_id})[0]
+            span_tag = self.soup.find_all(['h3', 'h4', 'h5'], {'id': def_id})[0]
             table = span_tag.parent.find_next_sibling()
-            while table and table.name not in ['h3', 'h4', 'h5']:
+            while table and table.name not in ['h3', 'h4', 'h5', 'div']:
                 definition_tag = table
                 table = table.find_next_sibling()
                 if definition_tag.name == 'p':
@@ -195,7 +195,7 @@ class WiktionaryParser(object):
         definition_id_list = self.get_id_list(word_contents, 'definitions')
         example_list = []
         for def_index, def_id, def_type in definition_id_list:
-            span_tag = self.soup.find_all('span', {'id': def_id})[0]
+            span_tag = self.soup.find_all(['h3', 'h4', 'h5'], {'id': def_id})[0]
             table = span_tag.parent
             while table.name != 'ol':
                 table = table.find_next_sibling()
@@ -218,7 +218,7 @@ class WiktionaryParser(object):
         etymology_tag = None
         for etymology_index, etymology_id, _ in etymology_id_list:
             etymology_text = ''
-            span_tag = self.soup.find_all('span', {'id': etymology_id})[0]
+            span_tag = self.soup.find_all(['h3', 'h4', 'h5'], {'id': etymology_id})[0]
             next_tag = span_tag.parent.find_next_sibling()
             while next_tag and next_tag.name not in ['h3', 'h4', 'div', 'h5']:
                 etymology_tag = next_tag
@@ -236,7 +236,7 @@ class WiktionaryParser(object):
         related_words_list = []
         for related_index, related_id, relation_type in relation_id_list:
             words = []
-            span_tag = self.soup.find_all('span', {'id': related_id})[0]
+            span_tag = self.soup.find_all(['h3', 'h4', 'h5'], {'id': related_id})[0]
             parent_tag = span_tag.parent
             while parent_tag and not parent_tag.find_all('li'):
                 parent_tag = parent_tag.find_next_sibling()
