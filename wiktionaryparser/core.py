@@ -146,7 +146,7 @@ class WiktionaryParser(object):
         pronunciation_div_classes = ['mw-collapsible', 'vsSwitcher']
         for pronunciation_index, pronunciation_id, _ in pronunciation_id_list:
             pronunciation_text = []
-            span_tag = self.soup.find_all('span', {'id': pronunciation_id})[0]
+            span_tag = self.soup.find_all(['h3', 'h4', 'h5'], {'id': pronunciation_id})[0]
             list_tag = span_tag.parent
             while list_tag.name != 'ul':
                 list_tag = list_tag.find_next_sibling()
